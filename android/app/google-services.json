@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "495091502782",
+    "firebase_url": "https://switcheats-2aff2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "switcheats-2aff2",
+    "storage_bucket": "switcheats-2aff2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495091502782:android:7cdc0976684254089f18ef",
+        "android_client_info": {
+          "package_name": "com.switcheats.delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbvls3C97OMgQ1xIjkjM_fnf8ofpoJT6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495091502782:android:9f9eda217b22f2149f18ef",
+        "android_client_info": {
+          "package_name": "com.switcheats.restaurant1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbvls3C97OMgQ1xIjkjM_fnf8ofpoJT6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495091502782:android:7e5480d5ee32b4ef9f18ef",
+        "android_client_info": {
+          "package_name": "com.switcheats.restaurant1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbvls3C97OMgQ1xIjkjM_fnf8ofpoJT6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495091502782:android:15b1c8ea802d489f9f18ef",
+        "android_client_info": {
+          "package_name": "com.switcheats.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbvls3C97OMgQ1xIjkjM_fnf8ofpoJT6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
