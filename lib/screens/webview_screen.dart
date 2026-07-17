@@ -1907,6 +1907,7 @@ import 'package:webview_master_app/config/app_config.dart';
 import 'package:webview_master_app/utils/in_app_update_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 /// WebView Screen - Main screen that loads the configured web URL
 class WebViewScreen extends StatefulWidget {
@@ -2548,10 +2549,16 @@ class _WebViewScreenState extends State<WebViewScreen>
                           urlString.includes('/users/login') ||
                           urlString.includes('/auth/signup-verify') ||
                           urlString.includes('/auth/restaurant/verify-otp');
+            var isLogout = urlString.includes('/logout') || 
+                           urlString.includes('/signout');
             
             // Call original fetch
             try {
               var response = await originalFetch.apply(this, arguments);
+              
+              if (isLogout && response.ok) {
+                 callFlutterHandler('captureLogout', JSON.stringify({ url: urlString }));
+              }
               
               // Clone the response to read it without consuming the original stream
               var clone = response.clone();
@@ -2587,6 +2594,14 @@ class _WebViewScreenState extends State<WebViewScreen>
             var self = this;
             var url = this._url;
             
+            if (url && (url.includes('/logout') || url.includes('/signout'))) {
+               this.addEventListener('load', function() {
+                  if (self.status >= 200 && self.status < 300) {
+                     callFlutterHandler('captureLogout', JSON.stringify({ url: url }));
+                  }
+               });
+            }
+            
             if (url && (url.includes('/auth/login') || 
                         url.includes('/users/login') ||
                         url.includes('/auth/signup-verify') ||
@@ -2612,6 +2627,20 @@ class _WebViewScreenState extends State<WebViewScreen>
             
             return originalXHRSend.apply(this, arguments);
           };
+
+          // Intercept localStorage.clear and removeItem
+          var originalClear = window.localStorage.clear;
+          window.localStorage.clear = function() {
+              callFlutterHandler('captureLogout', '{}');
+              return originalClear.apply(this, arguments);
+          };
+          var originalRemoveItem = window.localStorage.removeItem;
+          window.localStorage.removeItem = function(key) {
+              if (key === 'token' || key === 'accessToken' || key === 'user') {
+                  callFlutterHandler('captureLogout', '{}');
+              }
+              return originalRemoveItem.apply(this, arguments);
+          };
         })();
       """;
 
@@ -2622,6 +2651,28 @@ class _WebViewScreenState extends State<WebViewScreen>
         handlerName: 'captureApiRequest',
         callback: (args) {
           // Existing existing handler logic...
+        },
+      );
+
+      // Add Handler for Logout
+      controller.addJavaScriptHandler(
+        handlerName: 'captureLogout',
+        callback: (args) async {
+          debugPrint('🚪 Captured Logout Event from WebView');
+          try {
+            await FirebaseMessaging.instance.deleteToken();
+            debugPrint('✅ FCM Token deleted successfully');
+            
+            await PrefsUtil.clearAll();
+            debugPrint('✅ Local preferences cleared');
+            
+            await NotificationService().cancelAllNotifications();
+            debugPrint('✅ Active notifications cancelled');
+            
+            await BackgroundServiceUtil.stop();
+          } catch (e) {
+            debugPrint('❌ Error during logout cleanup: $e');
+          }
         },
       );
 
