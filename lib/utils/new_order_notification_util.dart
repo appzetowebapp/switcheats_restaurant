@@ -88,8 +88,7 @@ class NewOrderNotificationUtil {
       iOS: DarwinNotificationDetails(
         presentAlert: true,
         presentBadge: true,
-        presentSound: true,
-        sound: '${AppConfig.notificationSoundName}.mp3',
+        presentSound: false,
         interruptionLevel: InterruptionLevel.timeSensitive,
       ),
     );

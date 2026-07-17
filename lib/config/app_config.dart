@@ -87,7 +87,7 @@ class AppConfig {
   static const String notificationChannelDescription = 'Notifications from the website and push notifications';
 
   // Critical Notification channel ID (Android)
-  static const String criticalChannelId = 'critical_order_alerts_v6';
+  static const String criticalChannelId = 'critical_order_alerts_v7';
 
   // Critical Notification channel name (Android)
   static const String criticalChannelName = 'New Order Alerts';
